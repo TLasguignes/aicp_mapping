@@ -1,5 +1,8 @@
 # Auto-tuned ICP
 
+This is a fork from the Gepetto group at LAAS-CNRS, to work on an Ouster lidar.
+
+
 Auto-tuned Iterative Closest Point \(AICP\) is a module for laser-based localization and mapping \(Nobili et al., ICRA 2017\). The implementation of AICP includes a module for localization failure prediction \(Nobili et al., ICRA 2018\).
 The registration strategy is based on the *libpointmatcher* framework \(Pomerleau et al., AR 2012\).
 
@@ -59,13 +62,13 @@ sudo apt-get install libpointmatcher-dev libpointmatcher1
 
 #### How To Compile
 
-The code is cloned and built in the standard manner for a ROS package. 
+The code is cloned and built in the standard manner for a ROS package.
 
 Tips:
 * We currently support ROS Melodic / Ubuntu 18.04. The code is also compatiable with ROS Kinetic / Ubuntu 16.04.
 * Configure your workspace to be in Release mode:
 
-``` 
+```
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
