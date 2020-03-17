@@ -26,7 +26,7 @@ float hausdorffDistance(DP &ref, DP &out, const char *filename)
   params["knn"] =  toParam(1); // for Hausdorff distance, we only need the first closest point
   params["epsilon"] =  toParam(0);
 
-  PM::Matcher* matcherHausdorff = PM::get().MatcherRegistrar.create("KDTreeMatcher", params);
+  auto matcherHausdorff = PM::get().MatcherRegistrar.create("KDTreeMatcher", params);
 
   float quantile = 0.60;
   
@@ -102,7 +102,7 @@ PM::Matrix distancesKNN(DP &A, DP &B, const char *filename)
   params["knn"] =  toParam(1); // for Hausdorff distance, we only need the first closest point
   params["epsilon"] =  toParam(0);
 
-  PM::Matcher* matcher = PM::get().MatcherRegistrar.create("KDTreeMatcher", params);
+  auto matcher = PM::get().MatcherRegistrar.create("KDTreeMatcher", params);
 
   // from reading to reference
   matcher->init(A);

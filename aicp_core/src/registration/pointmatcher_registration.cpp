@@ -72,7 +72,7 @@ namespace aicp{
   {
     PM::TransformationParameters init_transform = parseTransformationDeg(params_.pointmatcher.initialTransform, 3);
 
-    PM::Transformation* rigid_transform = PM::get().REG(Transformation).create("RigidTransformation");
+    auto rigid_transform = PM::get().REG(Transformation).create("RigidTransformation");
 
     if (!rigid_transform->checkParameters(init_transform)) {
       cerr << endl
