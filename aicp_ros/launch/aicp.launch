@@ -24,6 +24,8 @@
   <arg name="lidar_channel"                    default="/point_cloud_filter/velodyne/point_cloud_filtered"/>
   <arg name="batch_size"                       default="7"/>
 
+  <arg name="verbose"                          default="false" />
+
   <arg name="inertial_frame"                   default="/odom"/>
   <arg name="pose_odom"                        default="/state_estimator/pose_in_odom"/>
 
@@ -57,11 +59,11 @@
     <param name="localize_against_prior_map"    value="$(arg localize_against_prior_map)" />
     <param name="localize_against_built_map"    value="$(arg localize_against_built_map)" /> <!-- implicit loop closure when revisit known place -->
 
-    <param name="trainingFile" value="$(arg trainingFile)" />
-    <param name="testingFile" value="$(arg testingFile)" />
-    <param name="saveFile" value="$(arg saveFile)" />
-    <param name="saveProbs" value="$(arg saveProbs)" />
-    <param name="modelLocation" value="$(arg modelLocation)" />
+    <param name="trainingFile"                  value="$(arg trainingFile)" />
+    <param name="testingFile"                   value="$(arg testingFile)" />
+    <param name="saveFile"                      value="$(arg saveFile)" />
+    <param name="saveProbs"                     value="$(arg saveProbs)" />
+    <param name="modelLocation"                 value="$(arg modelLocation)" />
 
     <!-- Prior map params -->
     <param name="crop_map_around_base"          value="15.0" /> <!-- box dimesions: value*2 x value*2 -->
@@ -78,7 +80,7 @@
     <!-- 3D point cloud characteristics -->
     <param name="batch_size"                    value="$(arg batch_size)" />
   	<!-- Visualize and store -->
-    <param name="verbose"                       value="false" />
+    <param name="verbose"                       value="$(arg verbose)" />
 
     <!-- Write out incoming data to file -->
     <param name="write_input_clouds_to_file"    value="$(arg write_input_clouds_to_file)" />

@@ -15,6 +15,10 @@
 
   <arg name="lidar_channel"          default="/point_cloud_filter/velodyne/point_cloud_filtered"/>
   <arg name="batch_size"             default="7"/>
+
+  <arg name="verbose"                default="false" />
+
+
   <arg name="pose_odom"              default="/state_estimator/pose_in_odom"/>
   <arg name="inertial_frame"         default="/odom"/>
 
@@ -29,6 +33,9 @@
 
     <arg name="lidar_channel" value="$(arg lidar_channel)"/>
     <arg name="batch_size"    value="$(arg batch_size)"/>
+    
+    <arg name="verbose"       value="$(arg verbose)" />
+
     <arg name="pose_odom"     value="$(arg pose_odom)"/>
 
     <arg name="inertial_frame" value="$(arg inertial_frame)"/>
