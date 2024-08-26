@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mode: requires no prior map. Builds map on the fly and localizes against it -->
+
+<launch>
+
+  <include file="$(find aicp_ros)/launch/aicp_mapping.launch">
+    <arg name="fixed_frame"                  default="map"/>
+    <arg name="load_map_from_file"           default="false"/>
+    <arg name="localize_against_prior_map"   default="false"/> <!-- ! should always be false in this launch file ! -->
+    <arg name="localize_against_built_map"   default="false"/> <!-- implicit loop closure when revisit known place -->
+
+    <!-- options for post processing -->
+    <arg name="write_input_clouds_to_file"       default="false"/>
+    <arg name="process_input_clouds_from_file"   default="false"/>
+    <arg name="process_input_clouds_folder"      default="/tmp/aicp_data"/>
+
+    <arg name="lidar_channel"          default="/os1_cloud_node/points"/>
+    <arg name="batch_size"             default="1"/>
+
+    <arg name="verbose"                default="false" />
+
+    <arg name="pose_odom"              default="/odom_aicp"/>
+    <arg name="inertial_frame"         default="/odom"/>
+  </include>
+  
+  <!-- <group if="$(arg load_map_from_file)"> -->
+    <!-- Initial pose guess -->
+    <!-- - set using set_aicp_initial_guess.py, for specific log -->
+    <!-- - or set using interaction marker from ui -->
+    <!-- <node pkg="aicp_ros" name="set_aicp_initial_guess" type="set_aicp_initial_guess.py" args="$(arg fixed_frame)" output="screen"> 
+    </node> -->
+  <!-- </group> -->
+
+</launch>

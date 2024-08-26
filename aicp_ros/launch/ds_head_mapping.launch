@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mode: requires no prior map. Builds map on the fly and localizes against it -->
+
+<!-- Launch file to run AICP with the dataset taken from the head. -->
+<launch>
+  <!-- arguments for the bag file (will be started in this place) -->
+  <!-- bags dir need to be not hardpath -->
+  <arg name="bag_dir"    default="/local/users/tlasguigne/work/dataset/sensors/head"/>
+  <arg name="bag_file"   default="2020-10-09-12-02-59.bag"/>
+
+  <!-- using the T265 as state estimator, we need to remap the odom frame. -->
+  <node pkg="tf" type="tf_remap" name="tf_remapper" output="screen">
+    <rosparam param="mappings">
+      [{old: cam_265_odom_frame, new: /odom}, {old: cam_265_odom_frame, new: /base_sensors}]
+    </rosparam>
+  </node>
+
+  <!-- Starting the rosbag -->
+  <node pkg="rosbag" type="play" name="player" args="--clock $(arg bag_dir)/$(arg bag_file)">
+    <remap from="tf" to="tf_old"/>
+  </node>
+
+  <!-- making link between cameras -->
+  <!-- Ouster in base_sensors -->
+  <node pkg="tf" type="static_transform_publisher" name="os_sensors_tf" args="0. 0. 0. 0. 0. 0. 1. base_sensors os_sensor 100" />
+  <!-- d435i in base_sensors -->
+  <node pkg="tf" type="static_transform_publisher" name="d435_sensors_tf" args="0. 0. 0. 0. 0. 0. 1. base_sensors cam_435_link 100" />
+
+
+
+  <include file="$(find aicp_ros)/launch/aicp_mapping.launch">
+    <arg name="fixed_frame"                  value="map"/>
+    <arg name="load_map_from_file"           value="false"/>
+    <arg name="localize_against_prior_map"   value="false"/> <!-- ! should always be false in this launch file ! -->
+    <arg name="localize_against_built_map"   value="false"/> <!-- implicit loop closure when revisit known place -->
+
+    <!-- options for post processing -->
+    <arg name="write_input_clouds_to_file"       value="false"/>
+    <arg name="process_input_clouds_from_file"   value="false"/>
+    <arg name="process_input_clouds_folder"      value="/tmp/aicp_data"/>
+
+    <arg name="lidar_channel"          value="/os_cloud_node/points"/>
+    <arg name="batch_size"             value="1"/>
+
+    <arg name="verbose"                value="true" />
+
+    <arg name="pose_odom"              value="/odom_aicp"/>
+    <arg name="inertial_frame"         value="/odom"/>
+  </include>
+  
+  <!-- <group if="$(arg load_map_from_file)"> -->
+    <!-- Initial pose guess -->
+    <!-- - set using set_aicp_initial_guess.py, for specific log -->
+    <!-- - or set using interaction marker from ui -->
+    <!-- <node pkg="aicp_ros" name="set_aicp_initial_guess" type="set_aicp_initial_guess.py" args="$(arg fixed_frame)" output="screen"> 
+    </node> -->
+  <!-- </group> -->
+
+</launch>
